@@ -27,4 +27,14 @@ public class TicketService {
     public List<Ticket> findAll() {
         return repo.findAll();
     }
+
+    public Ticket findById(Long id) {
+        return repo.findById(id).orElseThrow(() -> new TicketNotFoundException(id));
+    }
+
+    public Ticket updateStatus(Long id, Status status) {
+        Ticket t = findById(id);
+        t.setStatus(status);
+        return repo.save(t);
+    }
 }

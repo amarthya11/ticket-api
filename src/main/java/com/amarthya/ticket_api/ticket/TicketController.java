@@ -25,4 +25,14 @@ public class TicketController {
     public List<Ticket> all() {
         return service.findAll();
     }
+
+    @GetMapping("/{id}")
+    public Ticket one(@PathVariable Long id) {
+        return service.findById(id);
+    }
+
+    @PatchMapping("/{id}/status")
+    public Ticket updateStatus(@PathVariable Long id, @Valid @RequestBody UpdateStatusRequest req) {
+        return service.updateStatus(id, req.status());
+    }
 }
