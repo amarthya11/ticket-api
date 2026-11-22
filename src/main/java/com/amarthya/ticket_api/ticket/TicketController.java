@@ -26,6 +26,11 @@ public class TicketController {
         return service.findAll();
     }
 
+    @GetMapping("/breached")
+    public List<Ticket> breached() {
+        return service.findBreached();
+    }
+
     @GetMapping("/{id}")
     public Ticket one(@PathVariable Long id) {
         return service.findById(id);
@@ -34,5 +39,10 @@ public class TicketController {
     @PatchMapping("/{id}/status")
     public Ticket updateStatus(@PathVariable Long id, @Valid @RequestBody UpdateStatusRequest req) {
         return service.updateStatus(id, req.status());
+    }
+
+    @PostMapping("/{id}/escalate")
+    public Ticket escalate(@PathVariable Long id) {
+        return service.escalate(id);
     }
 }

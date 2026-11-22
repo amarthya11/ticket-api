@@ -37,4 +37,18 @@ public class TicketService {
         t.setStatus(status);
         return repo.save(t);
     }
+
+    public Ticket escalate(Long id) {
+        Ticket t = findById(id);
+        if (t.getStatus() == Status.RESOLVED || t.getStatus() == Status.CLOSED) {
+            throw new IllegalStateException("Cannot escalate a ticket that is already " + t.getStatus());
+        }
+        t.setStatus(Status.ESCALATED);
+        return repo.save(t);
+    }
+
+    public List<Ticket> findBreached() {
+        return repo.findBySlaDueAtBeforeAndStatusNotIn(
+                LocalDateTime.now(), List.of(Status.RESOLVED, Status.CLOSED));
+    }
 }
